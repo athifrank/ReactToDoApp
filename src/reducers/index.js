@@ -5,18 +5,15 @@ const taskReducer=(state=[],action)=>{
 
 	switch(action.type){
 		case 'ADD_TASK':
-		state=state.concat(action.payload)
+		return [...state, action.payload];
 		break;
 		case 'DELETE_TASK':
 		state=state.slice();
 		state.splice(action.payload,1);
 		break;
 		case 'EDIT_TASK':
-		 return[
-           ...state.filter(task=>task.id !==action.payload.id),
-           Object.assign({},action.payload)
-		 ];
-        break;
+		return action.payload;
+		break;
 		default:
 		return state
 		break;

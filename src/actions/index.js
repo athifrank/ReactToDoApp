@@ -1,7 +1,8 @@
-const addTask=(task)=>{
+const addTask=(task,count)=>{
+	console.log('count',count);
 	return{
 		type:'ADD_TASK',
-		payload:task
+		payload: {id:count, task: task}
 	}
 },
 deleteTask=(taskId)=>{
@@ -11,6 +12,7 @@ deleteTask=(taskId)=>{
 	}
 },
 editTask=(taskName)=>{
+
 	return{
 		type:'EDIT_TASK',
 		payload:taskName

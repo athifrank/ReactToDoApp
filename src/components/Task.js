@@ -9,7 +9,8 @@ class Task extends Component {
 		super(props);
 
 		this.state={
-			isEdit:false
+			isEdit:false,
+			value:''
 		}
 		this.handleDelete=this.handleDelete.bind(this);
 		this.onEditClick=this.onEditClick.bind(this);
@@ -20,8 +21,9 @@ class Task extends Component {
 	this.props.deleteSingle.deleteTask(this.props.id)
 	}
 
-	onEditClick(){
-		this.setState({isEdit:true});
+	onEditClick(key){
+
+		this.setState({isEdit:true,key: key});
 	}
 	onCancelClick(){
 		this.setState({isEdit:false});
@@ -29,19 +31,30 @@ class Task extends Component {
 
 	onSaveClick(e){
 		e.preventDefault();
-       this.props.editSingle.editTask(this.refs.editInput.value);
+		console.log('sample', this.props.tasklist);
+		const updateddata =this.props.tasklist.map((list)=>{
+			if(list.id===this.state.key){
+				list.task=this.refs.editInput.value;
+				return list;
+			}
+			else{
+				return list;
+			}
+		});
+		console.log('updateddata', updateddata);
+       this.props.editSingle.editTask(updateddata);
        this.setState({isEdit:false});
 	}
 
 	renderEditAction(){
-		        if(this.state.isEdit){
+	              if(this.state.isEdit){
 		        	return(
-		                 <input type="text"  ref="editInput"
-		                 defaultValue={this.props.task}/>
+		                 <input type="text"  ref="editInput" 
+		                 defaultValue={this.props.task.task} />
 		        		);
 		              }
           return(
-          <h4>{this.props.task}</h4>
+          <h4>{this.props.task.task}</h4>
           );
 	 }
 
@@ -61,7 +74,7 @@ class Task extends Component {
 
 				return(
                <td>
-               <button className="btn btn-info" onClick={this.onEditClick}>Edit</button>
+               <button className="btn btn-info" key={this.props.task.id} onClick={()=>this.onEditClick(this.props.task.id)}>Edit</button>
                <button className="btn btn-danger" 
                onClick={this.handleDelete}>Delete</button>
                </td>
@@ -74,7 +87,7 @@ class Task extends Component {
                <tr key={this.props.key}>
                <td>{this.renderEditAction()}</td>
                {this.renderActionSec()}
-               <td><button className="btn btn-warning"><input type="checkbox"  value=""/></button></td>
+               <td><button className="btn btn-warning"><input type="checkbox" style={{width:'25px',height:'25px',cursor:'pointer'}} value=""/></button></td>
                </tr>
 
      );
@@ -89,7 +102,13 @@ function mapDispatchToProps(dispatch){
   } 
 }
 
-export default connect(()=>{return{}},mapDispatchToProps)(Task);
+function mapStateToProps(state){
+	return{
+		tasklist: state.tasks
+	}
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Task);
 
 
 

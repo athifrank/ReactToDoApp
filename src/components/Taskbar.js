@@ -8,7 +8,8 @@ class TaskBar extends Component {
   constructor(props){
     super(props);
     this.state={
-      title:""
+      title:"",
+      count: 0
     }
     this.handleChange=this.handleChange.bind(this);
     this.handleClick=this.handleClick.bind(this);
@@ -19,7 +20,8 @@ handleChange(e){
 }
 
 handleClick(){
-  this.props.addTask(this.state.title);
+  this.setState({count:this.state.count+1});
+  this.props.addTask(this.state.title, (this.state.count));
   this.refs.task.value='';
 }
 
