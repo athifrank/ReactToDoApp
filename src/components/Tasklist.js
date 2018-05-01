@@ -12,14 +12,10 @@ class Tasklist extends Component {
       checked:false
     }
     this.selectAllCheck=this.selectAllCheck.bind(this);
-    this.changeHandler=this.changeHandler.bind(this);
   }
   
-  changeHandler(e){
-    const len=e.target.name;
-    const id=e.target.id;
-    const nBoxes = document.getElementsByName('delBox');
-    nBoxes[id].checked=true;
+  deleteAllTask(e){
+    alert('from parent');
   }
 
   selectAllCheck(){
@@ -34,7 +30,7 @@ class Tasklist extends Component {
       <tr>
         <th>Task Name</th>
         <th>Actions</th>
-        <th><button style={{cursor:'pointer'}} className="btn btn-default">DeleteAll</button></th>
+        <th><button style={{cursor:'pointer'}} className="btn btn-default" onClick={this.deleteAllTask}>DeleteAll</button></th>
         <th>{this.state.checked===false ? <button style={{cursor:'pointer'}} className="btn btn-default" 
         onClick={this.selectAllCheck}>SelectAll</button>: <button style={{cursor:'pointer'}} className="btn btn-default" 
         onClick={this.selectAllCheck}>UnSelectAll</button>}</th>
@@ -42,8 +38,7 @@ class Tasklist extends Component {
     </thead>
     <tbody>
         {this.props.tasks.map((task,index)=><Task key={index} task={task} 
-        checked={this.state.checked} 
-        changeHandler={this.changeHandler}
+        checked={this.state.checked} deleteTask={this.deleteAllTask}
         />)}
     </tbody>
   </table>
@@ -59,7 +54,9 @@ function mapStateToProps(state){
 }
 
 function mapDispatchToProps(dispatch){
-  return bindActionCreators({deleteTask},dispatch);
+  return {
+    deleteSingle:bindActionCreators({deleteTask},dispatch)
+  } 
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(Tasklist);

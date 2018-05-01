@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {deleteTask,editTask} from '../actions/';
+import $ from 'jquery';
 
 
 class Task extends Component {
@@ -10,13 +11,18 @@ class Task extends Component {
 
 		this.state={
 			isEdit:false,
-			value:''
+			value:'',
+			checked1:false
 			}		
 		this.handleDelete=this.handleDelete.bind(this);
 		this.onEditClick=this.onEditClick.bind(this);
 		this.onSaveClick=this.onSaveClick.bind(this);
+		this.checkboxChange=this.checkboxChange.bind(this);
 	}
 
+	componentWillReceiveProps(nextProps){
+      console.log(nextProps);
+	} 
 	handleDelete(){
 	this.props.deleteSingle.deleteTask(this.props.id)
 	}
@@ -27,6 +33,14 @@ class Task extends Component {
 	}
 	onCancelClick(){
 		this.setState({isEdit:false});
+	}
+
+	checkboxChange(e){
+		if(this.state.checked1 !== e.target.checked){
+			this.setState({
+				checked1:e.target.checked
+			});
+		}
 	}
 
 	onSaveClick(e){
@@ -58,7 +72,6 @@ class Task extends Component {
           );
 	 }
 
-
 	renderActionSec(){
 
 		if(this.state.isEdit){
@@ -82,20 +95,19 @@ class Task extends Component {
 			);
 			}
 
-		  render() {
+		  render(){
 		    return (
-		 
                <tr key={this.props.key}>
                <td>{this.renderEditAction()}</td>
                {this.renderActionSec()}
                <td><button className="btn btn-warning">
                <input 
-               type="checkbox" 
-               onChange={this.props.changeHandler}
-               checked={this.props.checked} 
+               type="checkbox"
+               onChange={this.checkboxChange} 
+               checked={this.state.checked1 || this.props.checked} 
                style={{width:'25px',height:'25px',cursor:'pointer'}} 
                value=""
-	           id={this.props.task.id}
+               id={this.props.task.id}
                name="delBox"/>
                </button></td>
                </tr>
