@@ -17,6 +17,13 @@ editTask=(taskName)=>{
 		type:'EDIT_TASK',
 		payload:taskName
 	}
+},
+deleteTaskAll=(taskId)=>{
+
+	return{
+		type:'DELETE_TASK_ALL',
+		payload:taskId
+	}
 }
 
-export {addTask,deleteTask,editTask};
+export {addTask,deleteTask,editTask,deleteTaskAll};

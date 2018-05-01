@@ -20,9 +20,7 @@ class Task extends Component {
 		this.checkboxChange=this.checkboxChange.bind(this);
 	}
 
-	componentWillReceiveProps(nextProps){
-      console.log(nextProps);
-	} 
+	
 	handleDelete(){
 	this.props.deleteSingle.deleteTask(this.props.id)
 	}
@@ -42,6 +40,9 @@ class Task extends Component {
 			});
 		}
 	}
+    click(){
+	this.props.deleteTask();
+    }
 
 	onSaveClick(e){
 		e.preventDefault();
@@ -106,8 +107,7 @@ class Task extends Component {
                onChange={this.checkboxChange} 
                checked={this.state.checked1 || this.props.checked} 
                style={{width:'25px',height:'25px',cursor:'pointer'}} 
-               value=""
-               id={this.props.task.id}
+               value={this.props.task.id}
                name="delBox"/>
                </button></td>
                </tr>

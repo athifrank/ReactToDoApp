@@ -14,6 +14,10 @@ const taskReducer=(state=[],action)=>{
 		case 'EDIT_TASK':
 		return action.payload;
 		break;
+		case 'DELETE_TASK_ALL':
+		state=state.slice();
+		action.payload.map(val=>state.splice(val));
+		break;
 		default:
 		return state
 		break;

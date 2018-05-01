@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {deleteTask} from '../actions/';
+import {deleteTaskAll} from '../actions/';
 import Task from './Task';
-
+import $ from 'jquery';
 
 class Tasklist extends Component {
   constructor(props){
@@ -12,10 +12,18 @@ class Tasklist extends Component {
       checked:false
     }
     this.selectAllCheck=this.selectAllCheck.bind(this);
+    this.deleteAllTask=this.deleteAllTask.bind(this);
   }
   
   deleteAllTask(e){
-    alert('from parent');
+    const val=document.getElementsByName('delBox');
+    const len=$('input[type="checked"]').value;
+     let favorite = [];
+            $.each($("input[name='delBox']:checked"),function(){            
+                favorite.push($(this).val());
+            });
+
+   this.props.deleteAll.deleteTaskAll(favorite)
   }
 
   selectAllCheck(){
@@ -54,9 +62,10 @@ function mapStateToProps(state){
 }
 
 function mapDispatchToProps(dispatch){
-  return {
-    deleteSingle:bindActionCreators({deleteTask},dispatch)
+  return{
+     deleteAll:bindActionCreators({deleteTaskAll},dispatch)
   } 
 }
+
 
 export default connect(mapStateToProps,mapDispatchToProps)(Tasklist);
