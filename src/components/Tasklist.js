@@ -6,6 +6,26 @@ import Task from './Task';
 
 
 class Tasklist extends Component {
+  constructor(props){
+    super(props);
+    this.state={
+      checked:false
+    }
+    this.selectAllCheck=this.selectAllCheck.bind(this);
+    this.changeHandler=this.changeHandler.bind(this);
+  }
+  
+  changeHandler(e){
+    const len=e.target.name;
+    const id=e.target.id;
+    const nBoxes = document.getElementsByName('delBox');
+    nBoxes[id].checked=true;
+  }
+
+  selectAllCheck(){
+   this.setState({checked:!this.state.checked});
+  }
+
   render() {
     return (
       <div>
@@ -14,11 +34,17 @@ class Tasklist extends Component {
       <tr>
         <th>Task Name</th>
         <th>Actions</th>
-        <th><button style={{cursor:'pointer'}}>DeleteAll</button></th>
+        <th><button style={{cursor:'pointer'}} className="btn btn-default">DeleteAll</button></th>
+        <th>{this.state.checked===false ? <button style={{cursor:'pointer'}} className="btn btn-default" 
+        onClick={this.selectAllCheck}>SelectAll</button>: <button style={{cursor:'pointer'}} className="btn btn-default" 
+        onClick={this.selectAllCheck}>UnSelectAll</button>}</th>
       </tr>
     </thead>
     <tbody>
-        {this.props.tasks.map((task,index)=><Task key={index} task={task} />)}
+        {this.props.tasks.map((task,index)=><Task key={index} task={task} 
+        checked={this.state.checked} 
+        changeHandler={this.changeHandler}
+        />)}
     </tbody>
   </table>
       </div>

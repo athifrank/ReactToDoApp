@@ -11,7 +11,7 @@ class Task extends Component {
 		this.state={
 			isEdit:false,
 			value:''
-		}
+			}		
 		this.handleDelete=this.handleDelete.bind(this);
 		this.onEditClick=this.onEditClick.bind(this);
 		this.onSaveClick=this.onSaveClick.bind(this);
@@ -74,7 +74,8 @@ class Task extends Component {
 
 				return(
                <td>
-               <button className="btn btn-info" key={this.props.task.id} onClick={()=>this.onEditClick(this.props.task.id)}>Edit</button>
+               <button className="btn btn-info" key={this.props.task.id} 
+               onClick={()=>this.onEditClick(this.props.task.id)}>Edit</button>
                <button className="btn btn-danger" 
                onClick={this.handleDelete}>Delete</button>
                </td>
@@ -87,7 +88,16 @@ class Task extends Component {
                <tr key={this.props.key}>
                <td>{this.renderEditAction()}</td>
                {this.renderActionSec()}
-               <td><button className="btn btn-warning"><input type="checkbox" style={{width:'25px',height:'25px',cursor:'pointer'}} value=""/></button></td>
+               <td><button className="btn btn-warning">
+               <input 
+               type="checkbox" 
+               onChange={this.props.changeHandler}
+               checked={this.props.checked} 
+               style={{width:'25px',height:'25px',cursor:'pointer'}} 
+               value=""
+	           id={this.props.task.id}
+               name="delBox"/>
+               </button></td>
                </tr>
 
      );
